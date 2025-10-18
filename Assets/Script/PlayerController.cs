@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private float fireTimer = 0f;
-    private int currentHealth;
+    public int currentHealth;
 
     private float tempFireRateMultiplier = 1f;
     private int extraProjectiles = 0;
@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public int level = 1;
     public float currentXP = 0f;
     public float xpToNext = 50f;
+
 
     void Awake()
     {
@@ -116,6 +117,7 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.PauseGame();
         UIManager.Instance.ShowLevelUpOptions(this);
     }
+
 
     public void ApplyTemporaryUpgrade_TurnToProjectiles(int extra) { extraProjectiles += extra; GameManager.Instance.ResumeGame(); }
     public void ApplyTemporaryUpgrade_FireRateMultiplier(float mult) { tempFireRateMultiplier *= mult; GameManager.Instance.ResumeGame(); }

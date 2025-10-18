@@ -14,6 +14,9 @@ public class PermanentUpgradesMenu : MonoBehaviour
     public int baseCost = 50;
     public float costMultiplier = 1.5f;
 
+    [Header("% Mejora por Nivel (Entre 1.01 y 2)")]
+    public float upgradeMultiplier = 1.1f;
+
     private void Start()
     {
         UpdateUI();
@@ -59,10 +62,10 @@ public class PermanentUpgradesMenu : MonoBehaviour
 
         switch (stat)
         {
-            case "damage": PersistentUpgrades.Instance.damageLevel++; break;
-            case "health": PersistentUpgrades.Instance.healthLevel++; break;
-            case "speed": PersistentUpgrades.Instance.speedLevel++; break;
-            case "firerate": PersistentUpgrades.Instance.fireRateLevel++; break;
+            case "damage": PersistentUpgrades.Instance.damageLevel++; PersistentUpgrades.Instance.stats.damage *= upgradeMultiplier; break;
+            case "health": PersistentUpgrades.Instance.healthLevel++; PersistentUpgrades.Instance.stats.maxHealthMultiplier *= upgradeMultiplier; break;
+            case "speed": PersistentUpgrades.Instance.speedLevel++; PersistentUpgrades.Instance.stats.speed *= upgradeMultiplier; break;
+            case "firerate": PersistentUpgrades.Instance.fireRateLevel++; PersistentUpgrades.Instance.stats.fireRateMultiplier *= upgradeMultiplier; break;
         }
 
         PersistentUpgrades.Instance.Save();
