@@ -32,6 +32,7 @@ public class Enemy : MonoBehaviour
         health = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         healthBar = GetComponentInChildren<HealthBar>();
+        healthBar.transform.localScale = new Vector3(0, 0, 0);
         rb.gravityScale = 0;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
@@ -49,6 +50,7 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
+        healthBar.transform.localScale = new Vector3(1, 1, 0);
         health -= amount;
         healthBar.UpdateBar(health / maxHealth);
         if (health <= 0)

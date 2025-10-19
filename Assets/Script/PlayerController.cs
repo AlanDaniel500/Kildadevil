@@ -15,7 +15,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
     private float fireTimer = 0f;
-    public int currentHealth;
+    private int currentHealth;
+    private float currentMaxHealth;
 
     private float tempFireRateMultiplier = 1f;
     private int extraProjectiles = 0;
@@ -24,11 +25,16 @@ public class PlayerController : MonoBehaviour
     public float currentXP = 0f;
     public float xpToNext = 50f;
 
+    private HealthBar healthBar;
+
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        currentHealth = Mathf.CeilToInt(baseMaxHealth * PersistentUpgrades.Instance.stats.maxHealthMultiplier);
+        healthBar = GetComponentInChildren<HealthBar>();
+        healthBar.transform.localScale = new Vector3(0, 0, 0);
+        currentMaxHealth = baseMaxHealth * PersistentUpgrades.Instance.stats.maxHealthMultiplier;
+        currentHealth = Mathf.CeilToInt(currentMaxHealth);
         ApplyPermanentStats();
     }
 
@@ -91,7 +97,9 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(int dmg)
     {
+        healthBar.transform.localScale = new Vector3(1, 1, 0);
         currentHealth -= dmg;
+        healthBar.UpdateBar(currentHealth / currentMaxHealth);
         if (currentHealth <= 0)
         {
             UIManager.Instance.OnPlayerDeath();
