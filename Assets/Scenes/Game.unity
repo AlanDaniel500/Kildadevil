@@ -1300,6 +1300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
   enemyPrefab: {fileID: 8222543616698307489, guid: cb2a5429ac74b4a4c9d75a7e2673c6c5, type: 3}
+  enemyElitePrefab: {fileID: 1679209115303933024, guid: 2355b548069d0a44d8c4bc5f802947dc, type: 3}
   spawnInterval: 2
   leftSpawn: {fileID: 1194168578}
   rightSpawn: {fileID: 639760345}

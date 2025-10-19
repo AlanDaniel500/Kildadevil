@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
+    public GameObject enemyElitePrefab;
     public float spawnInterval = 2f;
     public Transform leftSpawn, rightSpawn;
 
@@ -27,7 +28,8 @@ public class EnemySpawner : MonoBehaviour
     void SpawnEnemy()
     {
         Transform side = Random.value > 0.5f ? leftSpawn : rightSpawn;
-        var e = Instantiate(enemyPrefab, side.position, Quaternion.identity);
+        GameObject type = Random.value > 0.05f ? enemyPrefab : enemyElitePrefab;
+        var e = Instantiate(type, side.position, Quaternion.identity);
         Enemy enemy = e.GetComponent<Enemy>();
         enemy.maxHealth += elapsedTime * 0.2f;
     }
