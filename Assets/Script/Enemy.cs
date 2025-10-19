@@ -25,10 +25,13 @@ public class Enemy : MonoBehaviour
     private bool canDamage = true;
     public float damageCooldown = 0.5f;
 
+    private HealthBar healthBar;
+
     void Awake()
     {
         health = maxHealth;
         rb = GetComponent<Rigidbody2D>();
+        healthBar = GetComponentInChildren<HealthBar>();
         rb.gravityScale = 0;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
@@ -47,6 +50,7 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float amount)
     {
         health -= amount;
+        healthBar.UpdateBar(health / maxHealth);
         if (health <= 0)
         {
             Die();
