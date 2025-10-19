@@ -27,9 +27,11 @@ public class PlayerController : MonoBehaviour
 
     private HealthBar healthBar;
 
+    private HitFlashEffect hitFlashEffect;
 
     void Awake()
     {
+        hitFlashEffect = GetComponent<HitFlashEffect>();
         rb = GetComponent<Rigidbody2D>();
         healthBar = GetComponentInChildren<HealthBar>();
         healthBar.transform.localScale = new Vector3(0, 0, 0);
@@ -99,6 +101,7 @@ public class PlayerController : MonoBehaviour
     {
         healthBar.transform.localScale = new Vector3(1, 1, 0);
         currentHealth -= dmg;
+        hitFlashEffect.TriggerHitFlash();
         healthBar.UpdateBar(currentHealth / currentMaxHealth);
         if (currentHealth <= 0)
         {

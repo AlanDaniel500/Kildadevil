@@ -27,9 +27,12 @@ public class Enemy : MonoBehaviour
 
     private HealthBar healthBar;
 
+    private HitFlashEffect hitFlashEffect;
+
     void Awake()
     {
         health = maxHealth;
+        hitFlashEffect = GetComponent<HitFlashEffect>();
         rb = GetComponent<Rigidbody2D>();
         healthBar = GetComponentInChildren<HealthBar>();
         healthBar.transform.localScale = new Vector3(0, 0, 0);
@@ -52,6 +55,7 @@ public class Enemy : MonoBehaviour
     {
         healthBar.transform.localScale = new Vector3(1, 1, 0);
         health -= amount;
+        hitFlashEffect.TriggerHitFlash();
         healthBar.UpdateBar(health / maxHealth);
         if (health <= 0)
         {

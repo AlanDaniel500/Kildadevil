@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 8494292719856728584}
   - component: {fileID: 8414097942113777479}
   - component: {fileID: 6503991013433757543}
+  - component: {fileID: 2456489641891125291}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -352,6 +353,21 @@ MonoBehaviour:
   knockbackDuration: 0.15
   playerKnockbackForce: 4
   damageCooldown: 0.5
+--- !u!114 &2456489641891125291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8222543616698307489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ae8411748c39974bba194977a2e5daf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  flashColor: {r: 1, g: 1, b: 1, a: 0.0627451}
+  flashDuration: 0.1
+  numberOfFlashes: 1
 --- !u!1 &8267608229135232694
 GameObject:
   m_ObjectHideFlags: 0

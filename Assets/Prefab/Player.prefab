@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 2293036966822599241}
   - component: {fileID: 6118806944352022175}
   - component: {fileID: 3752972720917522071}
+  - component: {fileID: 4519843386311599698}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -352,10 +353,24 @@ MonoBehaviour:
   baseProjectiles: 2
   projectileOrigin: {fileID: 4875502899876848498}
   projectilePrefab: {fileID: 0}
-  currentHealth: 0
   level: 1
   currentXP: 0
   xpToNext: 50
+--- !u!114 &4519843386311599698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2765260022961492635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ae8411748c39974bba194977a2e5daf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  flashColor: {r: 1, g: 0, b: 0, a: 0.5019608}
+  flashDuration: 0.2
+  numberOfFlashes: 1
 --- !u!1 &4330947776218656836
 GameObject:
   m_ObjectHideFlags: 0
