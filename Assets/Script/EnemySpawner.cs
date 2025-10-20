@@ -29,7 +29,7 @@ public class EnemySpawner : MonoBehaviour
     {
         Transform side = Random.value > 0.5f ? leftSpawn : rightSpawn;
         GameObject type = Random.value > 0.05f ? enemyPrefab : enemyElitePrefab;
-        var e = Instantiate(type, side.position, Quaternion.identity);
+        var e = Instantiate(type, new Vector3(side.position.x, side.position.y + Random.Range(-3f,+3f), side.position.z), Quaternion.identity);
         Enemy enemy = e.GetComponent<Enemy>();
         enemy.maxHealth += elapsedTime * 0.2f;
     }
