@@ -48,6 +48,10 @@ public class GameManager : MonoBehaviour
         {
             EndRun((int)matchDuration);
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     public void PauseGame()
