@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     public float baseFireRate = 0.8f;
     public int baseProjectiles = 2;
 
+    public KeyCode toggleKey = KeyCode.Mouse1;
+    private bool aimAtCursor = false;
+
     public Transform projectileOrigin;
     public GameObject projectilePrefab;
 
@@ -50,6 +53,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (GameManager.Instance.IsPaused) return;
+        if (Input.GetKeyDown(toggleKey))
+        {
+            aimAtCursor = !aimAtCursor;
+            Debug.Log("Modo de disparo cambiado: " + (aimAtCursor ? "Apuntado con cursor" : "Direcciones preestablecidas"));
+        }
         HandleMovement();
         HandleFiring();
     }
@@ -74,19 +82,31 @@ public class PlayerController : MonoBehaviour
     void FireProjectiles()
     {
         int total = baseProjectiles + extraProjectiles;
-        if (total <= 2)
+        if (aimAtCursor)
         {
-            SpawnProjectile(Vector2.left);
-            SpawnProjectile(Vector2.right);
+            
+            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 direction = (mouseWorld - projectileOrigin.position).normalized;
+
+            
+            SpawnProjectile(direction);
         }
         else
         {
-            float step = 360f / total;
-            for (int i = 0; i < total; i++)
+            if (total <= 2)
             {
-                float rad = step * i * Mathf.Deg2Rad;
-                Vector2 dir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
-                SpawnProjectile(dir);
+                SpawnProjectile(Vector2.left);
+                SpawnProjectile(Vector2.right);
+            }
+            else
+            {
+                float step = 360f / total;
+                for (int i = 0; i < total; i++)
+                {
+                    float rad = step * i * Mathf.Deg2Rad;
+                    Vector2 dir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+                    SpawnProjectile(dir);
+                }
             }
         }
     }
