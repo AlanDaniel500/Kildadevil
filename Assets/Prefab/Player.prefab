@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 6118806944352022175}
   - component: {fileID: 3752972720917522071}
   - component: {fileID: 4519843386311599698}
+  - component: {fileID: 1936298698861589849}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -351,6 +352,8 @@ MonoBehaviour:
   baseDamage: 10
   baseFireRate: 0.8
   baseProjectiles: 2
+  pushForce: 15
+  toggleKey: 324
   projectileOrigin: {fileID: 4875502899876848498}
   projectilePrefab: {fileID: 0}
   level: 1
@@ -371,6 +374,21 @@ MonoBehaviour:
   flashColor: {r: 1, g: 0, b: 0, a: 0.5019608}
   flashDuration: 0.2
   numberOfFlashes: 1
+--- !u!114 &1936298698861589849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2765260022961492635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f21eeb131695e14bb81db48c460fd03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dash
+  dashingPower: 15
+  dashingTime: 0.2
+  dashingCooldown: 2
 --- !u!1 &4330947776218656836
 GameObject:
   m_ObjectHideFlags: 0

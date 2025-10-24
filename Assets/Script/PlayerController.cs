@@ -1,9 +1,13 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [DefaultExecutionOrder(0)]
 public class PlayerController : MonoBehaviour
 {
+    private Collider2D playerCollider;
+
     public float baseSpeed = 3f;
     public int baseMaxHealth = 100;
     public float baseDamage = 10f;
@@ -32,15 +36,28 @@ public class PlayerController : MonoBehaviour
 
     private HitFlashEffect hitFlashEffect;
 
+    private Dash dash;
+
+    private bool wasDashing = false;
+
+    private HashSet<Collider2D> enemiesCollidingDuringDash = new HashSet<Collider2D>();
+    private ContactFilter2D enemyContactFilter;
+
     void Awake()
     {
         hitFlashEffect = GetComponent<HitFlashEffect>();
+        dash = GetComponent<Dash>();
         rb = GetComponent<Rigidbody2D>();
         healthBar = GetComponentInChildren<HealthBar>();
         healthBar.transform.localScale = new Vector3(0, 0, 0);
         currentMaxHealth = baseMaxHealth * PersistentUpgrades.Instance.stats.maxHealthMultiplier;
         currentHealth = Mathf.CeilToInt(currentMaxHealth);
         ApplyPermanentStats();
+
+        enemyContactFilter.useTriggers = false;
+        enemyContactFilter.SetLayerMask(LayerMask.GetMask("Enemy"));
+        enemyContactFilter.useLayerMask = true;
+        playerCollider = GetComponent<Collider2D>();
     }
 
     void ApplyPermanentStats()
@@ -60,13 +77,75 @@ public class PlayerController : MonoBehaviour
         }
         HandleMovement();
         HandleFiring();
+        HandleDashCollisions();
+    }
+
+    void HandleDashCollisions()
+    {
+        if (dash.IsDashing)
+        {
+            if (!wasDashing)
+            {
+                Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Default"), LayerMask.NameToLayer("Enemy"), true);
+                DetectInitialEnemies();
+            }
+
+            DetectOverlappingEnemies();
+        }
+        else if (wasDashing)
+        {
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Default"), LayerMask.NameToLayer("Enemy"), false);
+            OnDashEnd();
+        }
+
+        wasDashing = dash.IsDashing;
+    }
+
+    void DetectInitialEnemies()
+    {
+        Collider2D[] overlaps = new Collider2D[20];
+        int count = Physics2D.OverlapCircleNonAlloc(transform.position, 2f, overlaps, LayerMask.GetMask("Enemy"));
+        for (int i = 0; i < count; i++)
+        {
+            enemiesCollidingDuringDash.Add(overlaps[i]);
+        }
+    }
+
+    void DetectOverlappingEnemies()
+    {
+        Collider2D[] overlaps = new Collider2D[20];
+        int count = Physics2D.OverlapCircleNonAlloc(transform.position, 1.5f, overlaps, LayerMask.GetMask("Enemy"));
+        for (int i = 0; i < count; i++)
+        {
+            enemiesCollidingDuringDash.Add(overlaps[i]);
+        }
+    }
+
+    public void OnDashEnd()
+    {
+        PushEnemiesAway();
+    }
+
+    void PushEnemiesAway()
+    {
+        foreach (var enemyCol in enemiesCollidingDuringDash)
+        {
+            if (enemyCol != null)
+            {
+                enemyCol.GetComponentInParent<Enemy>().TakeDamage(0);
+            }
+        }
+        enemiesCollidingDuringDash.Clear();
     }
 
     void HandleMovement()
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-        rb.velocity = new Vector2(h, v).normalized * baseSpeed;
+        if (dash.IsDashing == false)
+        {
+            rb.velocity = new Vector2(h, v).normalized * baseSpeed;
+        }
     }
 
     void HandleFiring()
@@ -119,14 +198,17 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(int dmg)
     {
-        healthBar.transform.localScale = new Vector3(1, 1, 0);
-        currentHealth -= dmg;
-        hitFlashEffect.TriggerHitFlash();
-        healthBar.UpdateBar(currentHealth / currentMaxHealth);
-        if (currentHealth <= 0)
+        if (!dash.IsDashing)
         {
-            UIManager.Instance.OnPlayerDeath();
-            gameObject.SetActive(false);
+            healthBar.transform.localScale = new Vector3(1, 1, 0);
+            currentHealth -= dmg;
+            hitFlashEffect.TriggerHitFlash();
+            healthBar.UpdateBar(currentHealth / currentMaxHealth);
+            if (currentHealth <= 0)
+            {
+                UIManager.Instance.OnPlayerDeath();
+                gameObject.SetActive(false);
+            }
         }
     }
 

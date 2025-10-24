@@ -53,14 +53,17 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
-        healthBar.transform.localScale = new Vector3(1, 1, 0);
-        health -= amount;
-        hitFlashEffect.TriggerHitFlash();
-        healthBar.UpdateBar(health / maxHealth);
-        if (health <= 0)
+        if (amount > 0)
         {
-            Die();
-            return;
+            healthBar.transform.localScale = new Vector3(1, 1, 0);
+            health -= amount;
+            hitFlashEffect.TriggerHitFlash();
+            healthBar.UpdateBar(health / maxHealth);
+            if (health <= 0)
+            {
+                Die();
+                return;
+            }
         }
 
         
