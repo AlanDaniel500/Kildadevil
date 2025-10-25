@@ -38,6 +38,8 @@ public class PlayerController : MonoBehaviour
 
     private Dash dash;
 
+    public GameObject dashBar;
+
     private bool wasDashing = false;
 
     private HashSet<Collider2D> enemiesCollidingDuringDash = new HashSet<Collider2D>();

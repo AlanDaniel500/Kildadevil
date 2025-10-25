@@ -1,20 +1,23 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class Dash : MonoBehaviour
 {
     private Rigidbody2D rb;
     private PlayerController playerController;
+    private DashBar dashBar;
     private bool canDash = true;
     private bool isDashing;
     public float dashingPower = 24f;
     public float dashingTime = 0.5f;
     public float dashingCooldown = 2f;
+    private float currentCooldown = 0f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         playerController = GetComponent<PlayerController>();
+        dashBar = playerController.dashBar.GetComponent<DashBar>();
     }
 
     void Update()
@@ -22,6 +25,11 @@ public class Dash : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
             StartCoroutine(CharacterDash());
+        }
+        if (!canDash)
+        {
+            currentCooldown += Time.smoothDeltaTime;
+            dashBar.UpdateBar(currentCooldown / dashingCooldown);
         }
     }
 
@@ -50,6 +58,7 @@ public class Dash : MonoBehaviour
 
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
+        currentCooldown = 0f;
     }
 
     public bool IsDashing => isDashing;
