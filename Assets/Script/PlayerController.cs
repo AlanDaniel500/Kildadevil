@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -19,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     public Transform projectileOrigin;
     public GameObject projectilePrefab;
+    public GameObject skillPrefab;
 
     private Rigidbody2D rb;
     private float fireTimer = 0f;
@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     private Dash dash;
 
     public GameObject dashBar;
+    public GameObject skillBar;
 
     private bool wasDashing = false;
 
@@ -192,10 +193,48 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void FireSkill()
+    {
+        int total = baseProjectiles + extraProjectiles;
+        if (aimAtCursor)
+        {
+
+            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 direction = (mouseWorld - projectileOrigin.position).normalized;
+
+
+            SpawnProjectile(skillPrefab, direction);
+        }
+        else
+        {
+            if (total <= 2)
+            {
+                SpawnProjectile(skillPrefab, Vector2.left);
+                SpawnProjectile(skillPrefab, Vector2.right);
+            }
+            else
+            {
+                float step = 360f / total;
+                for (int i = 0; i < total; i++)
+                {
+                    float rad = step * i * Mathf.Deg2Rad;
+                    Vector2 dir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+                    SpawnProjectile(skillPrefab, dir);
+                }
+            }
+        }
+    }
+
     void SpawnProjectile(Vector2 dir)
     {
         var p = Instantiate(projectilePrefab, projectileOrigin.position, Quaternion.identity);
         p.GetComponent<Projectile>().Initialize(dir, baseDamage);
+    }
+
+    void SpawnProjectile(GameObject skill, Vector2 dir)
+    {
+        var p = Instantiate(skill, projectileOrigin.position, Quaternion.identity);
+        p.GetComponent<SkillProjectile>().Initialize(dir, baseDamage);
     }
 
     public void TakeDamage(int dmg)

@@ -8,8 +8,8 @@ public class Dash : MonoBehaviour
     private DashBar dashBar;
     private bool canDash = true;
     private bool isDashing;
-    public float dashingPower = 24f;
-    public float dashingTime = 0.5f;
+    public float dashingPower = 15f;
+    public float dashingTime = 0.2f;
     public float dashingCooldown = 2f;
     private float currentCooldown = 0f;
 

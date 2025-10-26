@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: 3752972720917522071}
   - component: {fileID: 4519843386311599698}
   - component: {fileID: 1936298698861589849}
+  - component: {fileID: -7617199781329577146}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -352,13 +353,15 @@ MonoBehaviour:
   baseDamage: 10
   baseFireRate: 0.8
   baseProjectiles: 2
-  pushForce: 15
   toggleKey: 324
   projectileOrigin: {fileID: 4875502899876848498}
-  projectilePrefab: {fileID: 0}
+  projectilePrefab: {fileID: 5813383069472829453, guid: c8df62e8ef48c1f49ba8e6b68ac40877, type: 3}
+  skillPrefab: {fileID: 5813383069472829453, guid: 344af47929dcc104080668941df5ffe5, type: 3}
   level: 1
   currentXP: 0
   xpToNext: 50
+  dashBar: {fileID: 0}
+  skillBar: {fileID: 0}
 --- !u!114 &4519843386311599698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,6 +392,19 @@ MonoBehaviour:
   dashingPower: 15
   dashingTime: 0.2
   dashingCooldown: 2
+--- !u!114 &-7617199781329577146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2765260022961492635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a632145c136314988c94c910acec2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Skill
+  skillCooldown: 120
 --- !u!1 &4330947776218656836
 GameObject:
   m_ObjectHideFlags: 0
