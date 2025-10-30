@@ -31,6 +31,22 @@ public class EnemySpawner : MonoBehaviour
         GameObject type = Random.value > 0.05f ? enemyPrefab : enemyElitePrefab;
         var e = Instantiate(type, new Vector3(side.position.x, side.position.y + Random.Range(-3f,+3f), side.position.z), Quaternion.identity);
         Enemy enemy = e.GetComponent<Enemy>();
+        int randomNumber = Random.Range(1, 101);
+        if (randomNumber <= 50)
+        {
+            enemy.Initialize(1);
+        }
+        else
+        {
+            if (randomNumber > 50 && randomNumber <= 80)
+            {
+                enemy.Initialize(2);
+            }
+            else
+            {
+                enemy.Initialize(3);
+            }
+        }
         enemy.maxHealth += elapsedTime * 0.2f;
     }
 

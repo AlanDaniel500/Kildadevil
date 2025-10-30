@@ -29,6 +29,15 @@ public class Enemy : MonoBehaviour
 
     private HitFlashEffect hitFlashEffect;
 
+    private int type;
+
+    private SpriteRenderer spriteRenderer;
+    private Color spriteColor;
+
+    public Transform projectileOrigin;
+    public GameObject projectilePrefab;
+    private float fireTimer = 0;
+
     void Awake()
     {
         health = maxHealth;
@@ -38,7 +47,7 @@ public class Enemy : MonoBehaviour
         healthBar.transform.localScale = new Vector3(0, 0, 0);
         rb.gravityScale = 0;
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-
+        spriteRenderer = GetComponent<SpriteRenderer>();
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
     }
 
@@ -47,8 +56,66 @@ public class Enemy : MonoBehaviour
         if (GameManager.Instance != null && GameManager.Instance.IsPaused) return;
         if (player == null || isKnockedBack) return;
 
+        Movement();
+    }
+
+    public void Initialize(int type)
+    {
+        this.type = type;
+        switch (this.type)
+        {
+            case 1:
+                spriteColor = Color.red;
+                break;
+            case 2:
+                spriteColor = Color.purple;
+                break;
+            case 3:
+                spriteColor = Color.blue;
+                rb.bodyType = RigidbodyType2D.Kinematic;
+                int enemyLayer = LayerMask.NameToLayer("EnemyToEnemy");
+                gameObject.layer = enemyLayer;
+                break;
+        }
+        spriteRenderer.color = spriteColor;
+    }
+
+    void Movement()
+    {
+        switch (type)
+        {
+            case 1:
+                Vector2 dir = (player.position - transform.position).normalized;
+                rb.velocity = dir * baseSpeed;
+                break;
+            case 2:
+                Vector2 dir2 = (player.position - transform.position).normalized;
+                Vector2 perpendicular = new Vector2(-dir2.y, dir2.x);
+                float wave = Mathf.Sin(Time.time * 5f + (2f * Mathf.PI)) * 5f;
+                Vector2 finalVelocity = (dir2 * baseSpeed) + (perpendicular * wave);
+                rb.velocity = finalVelocity;
+                break;
+            case 3:
+                HandleFiring();
+                break;
+        }
+    }
+
+    void HandleFiring()
+    {
+        fireTimer += Time.deltaTime;
+        if (fireTimer >= 3f)
+        {
+            fireTimer = 0f;
+            SpawnProjectile();
+        }
+    }
+
+    void SpawnProjectile()
+    {
         Vector2 dir = (player.position - transform.position).normalized;
-        rb.velocity = dir * baseSpeed;
+        var p = Instantiate(projectilePrefab, projectileOrigin.position, Quaternion.identity);
+        p.GetComponent<EnemyProjectile>().Initialize(dir, 10);
     }
 
     public void TakeDamage(float amount)
