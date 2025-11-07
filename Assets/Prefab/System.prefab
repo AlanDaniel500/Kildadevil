@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   IsPaused: 0
-  matchDuration: 600
+  matchDuration: 120
 --- !u!114 &4061926810858941554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,5 +84,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   deathPanel: {fileID: 0}
   levelUpPanel: {fileID: 0}
+  retryButton: {fileID: 0}
+  mainMenuButton: {fileID: 0}
   timerText: {fileID: 0}
   endRunText: {fileID: 0}
+  time: 0

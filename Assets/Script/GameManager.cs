@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     [HideInInspector] public bool IsPaused = false;
-    public float matchDuration = 600f; // 10 minutos
+    public float matchDuration = 120f; // segundos
     private float timer;
 
     void Awake()
@@ -69,12 +69,12 @@ public class GameManager : MonoBehaviour
     public void EndRun(int secondsSurvived)
     {
         int current = PlayerPrefs.GetInt("currency", 0);
-        PlayerPrefs.SetInt("currency", current + secondsSurvived);
+        PlayerPrefs.SetInt("currency", current + secondsSurvived * 5);
         PlayerPrefs.Save();
         PersistentUpgrades.Instance.Load();
         PauseGame();
         if (UIManager.Instance != null)
-            UIManager.Instance.ShowEndRun(secondsSurvived);
+            UIManager.Instance.ShowEndRun(secondsSurvived * 5);
     }
 
     public void RestartLevel()
