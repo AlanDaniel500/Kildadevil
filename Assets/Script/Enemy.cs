@@ -154,7 +154,7 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         PlayerController pc = player?.GetComponent<PlayerController>();
-        if (pc != null) pc.AddXP(xpValue);
+        if (pc != null) pc.AddXP(xpValue * 5);
         Destroy(gameObject);
     }
 

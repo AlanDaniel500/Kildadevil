@@ -95,7 +95,7 @@ public class UIManager : MonoBehaviour
 
     public void OnPlayerDeath()
     {
-        int survived = (int)(600f - time);
+        int survived = (int)(GameManager.Instance.matchDuration - time);
         GameManager.Instance.EndRun(survived);
     }
 

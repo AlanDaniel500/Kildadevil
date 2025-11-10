@@ -404,7 +404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1a632145c136314988c94c910acec2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Skill
-  skillCooldown: 120
+  skillCooldown: 24
 --- !u!1 &4330947776218656836
 GameObject:
   m_ObjectHideFlags: 0
