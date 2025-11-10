@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         if (dash.IsDashing == false)
         {
-            rb.velocity = new Vector2(h, v).normalized * baseSpeed;
+            rb.linearVelocity = new Vector2(h, v).normalized * baseSpeed;
         }
     }
 

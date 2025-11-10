@@ -47,7 +47,7 @@ public class Dash : MonoBehaviour
         {
             verticalInput = transform.localScale.y > 0 ? 1 : -1;
         }
-        rb.velocity = new Vector2(horizontalInput * dashingPower, verticalInput * dashingPower);
+        rb.linearVelocity = new Vector2(horizontalInput * dashingPower, verticalInput * dashingPower);
 
         yield return new WaitForSeconds(dashingTime);
         if (playerController != null)

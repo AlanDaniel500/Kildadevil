@@ -4,13 +4,13 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class Enemy : MonoBehaviour
 {
-    [Header("Estadísticas básicas")]
+    [Header("Estadï¿½sticas bï¿½sicas")]
     public float baseSpeed = 1.5f;
     public float maxHealth = 30f;
     public int contactDamage = 10;
     public int xpValue = 5;
 
-    [Header("Knockback al recibir daño")]
+    [Header("Knockback al recibir daï¿½o")]
     public float knockbackForce = 3f;      
     public float knockbackDuration = 0.15f;
 
@@ -86,14 +86,14 @@ public class Enemy : MonoBehaviour
         {
             case 1:
                 Vector2 dir = (player.position - transform.position).normalized;
-                rb.velocity = dir * baseSpeed;
+                rb.linearVelocity = dir * baseSpeed;
                 break;
             case 2:
                 Vector2 dir2 = (player.position - transform.position).normalized;
                 Vector2 perpendicular = new Vector2(-dir2.y, dir2.x);
                 float wave = Mathf.Sin(Time.time * 5f + (2f * Mathf.PI)) * 5f;
                 Vector2 finalVelocity = (dir2 * baseSpeed) + (perpendicular * wave);
-                rb.velocity = finalVelocity;
+                rb.linearVelocity = finalVelocity;
                 break;
             case 3:
                 HandleFiring();
@@ -144,10 +144,10 @@ public class Enemy : MonoBehaviour
     private IEnumerator ApplyKnockback(Vector2 direction)
     {
         isKnockedBack = true;
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         rb.AddForce(direction * knockbackForce, ForceMode2D.Impulse);
         yield return new WaitForSeconds(knockbackDuration);
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         isKnockedBack = false;
     }
 
