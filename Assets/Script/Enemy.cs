@@ -86,14 +86,14 @@ public class Enemy : MonoBehaviour
         {
             case 1:
                 Vector2 dir = (player.position - transform.position).normalized;
-                rb.linearVelocity = dir * baseSpeed;
+                rb.velocity = dir * baseSpeed;
                 break;
             case 2:
                 Vector2 dir2 = (player.position - transform.position).normalized;
                 Vector2 perpendicular = new Vector2(-dir2.y, dir2.x);
                 float wave = Mathf.Sin(Time.time * 5f + (2f * Mathf.PI)) * 5f;
                 Vector2 finalVelocity = (dir2 * baseSpeed) + (perpendicular * wave);
-                rb.linearVelocity = finalVelocity;
+                rb.velocity = finalVelocity;
                 break;
             case 3:
                 HandleFiring();
@@ -144,10 +144,10 @@ public class Enemy : MonoBehaviour
     private IEnumerator ApplyKnockback(Vector2 direction)
     {
         isKnockedBack = true;
-        rb.linearVelocity = Vector2.zero;
+        rb.velocity = Vector2.zero;
         rb.AddForce(direction * knockbackForce, ForceMode2D.Impulse);
         yield return new WaitForSeconds(knockbackDuration);
-        rb.linearVelocity = Vector2.zero;
+        rb.velocity = Vector2.zero;
         isKnockedBack = false;
     }
 

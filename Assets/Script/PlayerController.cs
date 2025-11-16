@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     private Collider2D playerCollider;
 
     private LineRenderer aimLine;
-    public float aimLineLength = 5f;
+    public float aimLineLength = 10f;
     public float baseSpeed = 3f;
     public int baseMaxHealth = 100;
     public float baseDamage = 10f;
@@ -181,7 +181,7 @@ public class PlayerController : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
         if (dash.IsDashing == false)
         {
-            rb.linearVelocity = new Vector2(h, v).normalized * baseSpeed;
+            rb.velocity = new Vector2(h, v).normalized * baseSpeed;
         }
     }
 
