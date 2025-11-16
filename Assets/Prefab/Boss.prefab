@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 6834812677937869795}
   - component: {fileID: 3297524855407909369}
   - component: {fileID: 272086215112540872}
+  - component: {fileID: 5128248154835012903}
   m_Layer: 9
   m_Name: Boss
   m_TagString: Enemy
@@ -218,6 +219,24 @@ MonoBehaviour:
   aoeWarningTime: 1
   aoeFadeOutTime: 0.5
   aoeDamage: 30
-  aoeSize: {x: 5, y: 5}
+  aoeSize: {x: 20, y: 2.5}
   projectileSpeed: 8
   projectileDamage: 30
+  maxHealth: 4500
+  contactDamage: 10
+  contactDamageCooldown: 0.5
+--- !u!114 &5128248154835012903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5569457392757586133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ae8411748c39974bba194977a2e5daf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitFlashEffect
+  flashColor: {r: 1, g: 1, b: 1, a: 0.0627451}
+  flashDuration: 0.1
+  numberOfFlashes: 1

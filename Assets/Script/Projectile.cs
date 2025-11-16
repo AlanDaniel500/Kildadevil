@@ -18,10 +18,18 @@ public class Projectile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Enemy e = other.GetComponent<Enemy>();
-        if (e != null)
+        if (other.GetComponent<BossController>() != null)
         {
-            e.TakeDamage(damage);
+            BossController boss = other.GetComponent<BossController>();
+            boss.TakeDamage(damage);
+            Destroy(gameObject);
+            return;
+        }
+
+        if (other.GetComponent<Enemy>() != null)
+        {
+            Enemy enemy = other.GetComponent<Enemy>();
+            enemy.TakeDamage(damage);
             Destroy(gameObject);
         }
     }
