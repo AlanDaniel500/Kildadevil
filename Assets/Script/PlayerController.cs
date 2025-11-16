@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
 {
     private Collider2D playerCollider;
 
+    private LineRenderer aimLine;
+    public float aimLineLength = 5f;
     public float baseSpeed = 3f;
     public int baseMaxHealth = 100;
     public float baseDamage = 10f;
@@ -15,6 +17,11 @@ public class PlayerController : MonoBehaviour
 
     public KeyCode toggleKey = KeyCode.Mouse1;
     private bool aimAtCursor = false;
+
+    public bool IsAiming()
+    {
+        return aimAtCursor;
+    }
 
     public Transform projectileOrigin;
     public GameObject projectilePrefab;
@@ -41,6 +48,8 @@ public class PlayerController : MonoBehaviour
     public GameObject dashBar;
     public GameObject skillBar;
 
+
+
     private bool wasDashing = false;
 
     private HashSet<Collider2D> enemiesCollidingDuringDash = new HashSet<Collider2D>();
@@ -55,7 +64,13 @@ public class PlayerController : MonoBehaviour
         healthBar.transform.localScale = new Vector3(0, 0, 0);
         currentMaxHealth = baseMaxHealth * PersistentUpgrades.Instance.stats.maxHealthMultiplier;
         currentHealth = Mathf.CeilToInt(currentMaxHealth);
+        aimLine = GetComponent<LineRenderer>();
         ApplyPermanentStats();
+
+        if (aimLine != null)
+        {
+            aimLine.enabled = false; // apagada al inicio
+        }
 
         enemyContactFilter.useTriggers = false;
         enemyContactFilter.SetLayerMask(LayerMask.GetMask("Enemy"));
@@ -81,6 +96,12 @@ public class PlayerController : MonoBehaviour
         HandleMovement();
         HandleFiring();
         HandleDashCollisions();
+        UpdateAimLine();
+
+        if (aimLine != null)
+            aimLine.enabled = aimAtCursor;
+
+
     }
 
     void HandleDashCollisions()
@@ -103,7 +124,20 @@ public class PlayerController : MonoBehaviour
 
         wasDashing = dash.IsDashing;
     }
+    void UpdateAimLine()
+    {
+        if (!aimAtCursor || aimLine == null) return;
 
+        Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 direction = (mouseWorld - projectileOrigin.position).normalized;
+
+        Vector3 start = projectileOrigin.position;
+        Vector3 end = start + (Vector3)direction * aimLineLength;
+
+        aimLine.positionCount = 2;
+        aimLine.SetPosition(0, start);
+        aimLine.SetPosition(1, end);
+    }
     void DetectInitialEnemies()
     {
         Collider2D[] overlaps = new Collider2D[20];

@@ -1758,6 +1758,8 @@ GameObject:
   - component: {fileID: 908111471}
   - component: {fileID: 908111474}
   - component: {fileID: 908111475}
+  - component: {fileID: 908111477}
+  - component: {fileID: 908111476}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1898,6 +1900,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
   player: {fileID: 1660439910}
   limitsX: {x: -10, y: 10}
+--- !u!114 &908111476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908111470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d987bc0a32ea23546a8e94b38df78f43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraFollowWithAim
+  target: {fileID: 1660439910}
+  followSpeed: 5
+  aimOffsetAmount: 2
+--- !u!114 &908111477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908111470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98c196847b9f5a64394133370032780d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  moveSpeed: 2
 --- !u!1 &953270783
 GameObject:
   m_ObjectHideFlags: 0
