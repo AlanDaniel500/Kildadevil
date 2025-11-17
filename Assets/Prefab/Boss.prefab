@@ -61,9 +61,9 @@ Transform:
   m_GameObject: {fileID: 5569457392757586133}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10, y: -2.46, z: 0}
-  m_LocalScale: {x: 7.5, y: 7.5, z: 7.5}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 7.5, y: 7.5, z: 0}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1386747380160659185}
   m_Father: {fileID: 0}
@@ -219,7 +219,7 @@ MonoBehaviour:
   aoeWarningTime: 1
   aoeFadeOutTime: 0.5
   aoeDamage: 30
-  aoeSize: {x: 20, y: 2.5}
+  aoeSize: {x: 20, y: 2}
   projectileSpeed: 8
   projectileDamage: 30
   maxHealth: 4500

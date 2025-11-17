@@ -19,10 +19,17 @@ public class SkillProjectile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Enemy e = other.GetComponent<Enemy>();
-        if (e != null)
+        if (other.GetComponent<BossController>() != null)
         {
-            e.TakeDamage(damage);
+            BossController boss = other.GetComponent<BossController>();
+            boss.TakeDamage(damage);
+            return;
+        }
+
+        if (other.GetComponent<Enemy>() != null)
+        {
+            Enemy enemy = other.GetComponent<Enemy>();
+            enemy.TakeDamage(damage);
         }
     }
 }

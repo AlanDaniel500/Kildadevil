@@ -27,6 +27,11 @@ public class CameraController : MonoBehaviour
     {
         if (player == null || playerController == null) return;
 
+        if (FindFirstObjectByType<BossController>() != null)
+        {
+            return;
+        }
+
         Vector3 currentPos = transform.position;
 
         if (playerController.IsAiming())

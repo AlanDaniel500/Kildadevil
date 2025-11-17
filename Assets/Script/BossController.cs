@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class BossController : MonoBehaviour
 {
@@ -47,13 +46,15 @@ public class BossController : MonoBehaviour
         // Las 3 posiciones Y fijas (puedes ajustar estos valores según tu juego)
         yPositions = new float[]
         {
-            transform.position.y + 1f,
-            transform.position.y + 4.5f,  // Ejemplo: segunda altura
+            transform.position.y + 0.5f,
+            transform.position.y + 3.5f,  // Ejemplo: segunda altura
             transform.position.y - 2.5f   // Ejemplo: tercera altura
         };
 
         health = maxHealth;
         hitFlashEffect = GetComponent<HitFlashEffect>();
+        BossHealthBar.Instance.UpdateBar(health / maxHealth);
+        ExperienceBar.Instance.GetComponent<CanvasGroup>().alpha = 0f;
     }
 
     void Update()
@@ -207,13 +208,13 @@ public class BossController : MonoBehaviour
     {
         if (amount > 0)
         {
-            //healthBar.transform.localScale = new Vector3(1, 1, 0);
             health -= amount;
             hitFlashEffect.TriggerHitFlash();
-            //healthBar.UpdateBar(health / maxHealth);
+            BossHealthBar.Instance.UpdateBar(health / maxHealth);
             if (health <= 0)
             {
                 Die();
+                GameManager.Instance.EndRun((int) GameManager.Instance.matchDuration);
                 return;
             }
         }

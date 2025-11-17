@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public bool IsPaused = false;
     public float matchDuration = 120f; // segundos
     private float timer;
+    private bool timerFinished = false;
 
     void Awake()
     {
@@ -39,19 +40,39 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (IsPaused) return;
-        timer -= Time.deltaTime;
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+        }
         if (UIManager.Instance != null)
         {
             UIManager.Instance.UpdateTimer(timer);
         }
-        if (timer <= 0f)
+        if (timer <= 0f && !timerFinished)
         {
-            EndRun((int)matchDuration);
+            timerFinished = true;
+            DestroyEnemies();
+            SpawnBoss();
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
+    }
+
+    private void DestroyEnemies()
+    {
+        Destroy(FindFirstObjectByType<EnemySpawner>());
+        var enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+        foreach (var ene in enemies)
+        {
+            if (ene != null) Destroy(ene.gameObject);
+        }
+    }
+
+    private void SpawnBoss()
+    {
+        BossSpawner.Instance.SpawnBoss();
     }
 
     public void PauseGame()
@@ -80,6 +101,7 @@ public class GameManager : MonoBehaviour
     public void RestartLevel()
     {
         Debug.Log("Reiniciando nivel...");
+        timerFinished = false;
         Time.timeScale = 1f;
         SceneManager.LoadScene("Game");
     }
@@ -87,6 +109,7 @@ public class GameManager : MonoBehaviour
     public void BackToMenu()
     {
         Debug.Log("Volviendo al menú...");
+        timerFinished = false;
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
@@ -95,6 +118,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("GameManager: reiniciando estado de partida...");
         IsPaused = false;
+        timerFinished = false;
         Time.timeScale = 1f;
         timer = matchDuration;
     }

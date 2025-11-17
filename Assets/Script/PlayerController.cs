@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -78,6 +79,11 @@ public class PlayerController : MonoBehaviour
         playerCollider = GetComponent<Collider2D>();
     }
 
+    void Start()
+    {
+        StartCoroutine(SetExperienceBarAlpha());
+    }
+
     void ApplyPermanentStats()
     {
         baseSpeed *= PersistentUpgrades.Instance.stats.speed;
@@ -102,6 +108,23 @@ public class PlayerController : MonoBehaviour
             aimLine.enabled = aimAtCursor;
 
 
+    }
+
+    private IEnumerator SetExperienceBarAlpha()
+    {
+        // Espera hasta que ExperienceBar esté listo
+        while (ExperienceBar.Instance == null)
+        {
+            yield return null;
+        }
+
+        CanvasGroup cg = ExperienceBar.Instance.GetComponent<CanvasGroup>();
+        if (cg != null)
+        {
+            cg.alpha = 1f;
+            cg.interactable = true;
+            cg.blocksRaycasts = true;
+        }
     }
 
     void HandleDashCollisions()
