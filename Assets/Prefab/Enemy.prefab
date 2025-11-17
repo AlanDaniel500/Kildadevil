@@ -387,6 +387,11 @@ MonoBehaviour:
   damageCooldown: 0.5
   projectileOrigin: {fileID: 6332917220435336139}
   projectilePrefab: {fileID: 5813383069472829453, guid: 7db5e6bc8eac6e24d891c41e5d88fd4f, type: 3}
+  aoeWarningPrefab: {fileID: 8522194380362674336, guid: 825ebbeda43a8344ca771f03cf430c0c, type: 3}
+  aoeWarningTime: 1
+  aoeFadeOutTime: 0.5
+  aoeDamage: 10
+  aoeSize: {x: 2, y: 2}
 --- !u!114 &2456489641891125291
 MonoBehaviour:
   m_ObjectHideFlags: 0

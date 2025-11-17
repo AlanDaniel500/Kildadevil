@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
 public class Enemy : MonoBehaviour
@@ -37,12 +37,17 @@ public class Enemy : MonoBehaviour
     public Transform projectileOrigin;
     public GameObject projectilePrefab;
     private float fireTimer = 0;
+    public GameObject aoeWarningPrefab;         // Red semi-transparent box (SpriteRenderer)
+    public float aoeWarningTime = 1f;           // How long warning shows before damage
+    public float aoeFadeOutTime = 0.5f;         // Fade out after damage
+    public int aoeDamage = 10;
+    public Vector2 aoeSize = new Vector2(1f, 1f);
 
     void Awake()
     {
         maxHealth *= GameManager.Instance.levelMult;
         health = maxHealth;
-        Debug.Log(health);
+        aoeDamage *= (int) GameManager.Instance.levelMult;
         hitFlashEffect = GetComponent<HitFlashEffect>();
         rb = GetComponent<Rigidbody2D>();
         healthBar = GetComponentInChildren<HealthBar>();
@@ -78,6 +83,13 @@ public class Enemy : MonoBehaviour
                 int enemyLayer = LayerMask.NameToLayer("EnemyToEnemy");
                 gameObject.layer = enemyLayer;
                 break;
+            case 4:
+                health = 1;
+                baseSpeed *= 3f;
+                spriteColor = Color.yellow;
+                int enemyLayer2 = LayerMask.NameToLayer("EnemyToEnemy");
+                gameObject.layer = enemyLayer2;
+                break;
         }
         spriteRenderer.color = spriteColor;
     }
@@ -99,6 +111,10 @@ public class Enemy : MonoBehaviour
                 break;
             case 3:
                 HandleFiring();
+                break;
+            case 4:
+                Vector2 dir3 = (player.position - transform.position).normalized;
+                rb.velocity = dir3 * baseSpeed;
                 break;
         }
     }
@@ -157,6 +173,14 @@ public class Enemy : MonoBehaviour
     {
         PlayerController pc = player?.GetComponent<PlayerController>();
         if (pc != null) pc.AddXP(xpValue * 5);
+        if (type == 4)
+        {
+            GameObject deathEffect = new GameObject("DeathAOE");
+            deathEffect.transform.position = transform.position;
+
+            var aoe = deathEffect.AddComponent<DeathAOE>();
+            aoe.Setup(aoeWarningPrefab, aoeSize, aoeWarningTime, aoeFadeOutTime, aoeDamage);
+        }
         Destroy(gameObject);
     }
 
@@ -193,6 +217,10 @@ public class Enemy : MonoBehaviour
             pc.TakeDamage(contactDamage * (int) GameManager.Instance.levelMult);
 
             canDamage = false;
+            if (type == 4)
+            {
+                Die();
+            } 
             StartCoroutine(DamageCooldownRoutine());
         }
     }

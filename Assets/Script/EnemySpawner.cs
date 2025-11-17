@@ -32,19 +32,26 @@ public class EnemySpawner : MonoBehaviour
         var e = Instantiate(type, new Vector3(side.position.x, side.position.y + Random.Range(-3f,+3f), side.position.z), Quaternion.identity);
         Enemy enemy = e.GetComponent<Enemy>();
         int randomNumber = Random.Range(1, 101);
-        if (randomNumber <= 60)
+        if (randomNumber <= 50)
         {
             enemy.Initialize(1);
         }
         else
         {
-            if (randomNumber > 60 && randomNumber <= 90)
+            if (randomNumber > 50 && randomNumber <= 70)
             {
                 enemy.Initialize(2);
             }
             else
             {
-                enemy.Initialize(3);
+                if (randomNumber > 70 && randomNumber <= 90)
+                {
+                    enemy.Initialize(3);
+                }
+                else
+                {
+                    enemy.Initialize(4);
+                }
             }
         }
         enemy.maxHealth += elapsedTime * 0.2f;
