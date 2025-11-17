@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,15 @@ public class GameManager : MonoBehaviour
     public float matchDuration = 120f; // segundos
     private float timer;
     private bool timerFinished = false;
+    private string[] levels = new string[]
+        {
+            "Game",
+            "Game2",
+            "Game3",
+            "BossTest"
+        };
+    public string lastPlayed;
+    public float levelMult;
 
     void Awake()
     {
@@ -26,9 +36,27 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Game")
+        bool game = Array.IndexOf(levels, scene.name) >= 0;
+        if (game == true)
         {
+            lastPlayed = scene.name;
             ResetGameState();
+        }
+        switch (scene.name)
+        {
+            case ("BossTest"):
+                levelMult = 1f;
+                timer = 10f;
+                break;
+            case ("Game"):
+                levelMult = 1f;
+                break;
+            case ("Game2"):
+                levelMult = 2f;
+                break;
+            case ("Game3"):
+                levelMult = 3f;
+                break;
         }
     }
 
@@ -103,7 +131,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Reiniciando nivel...");
         timerFinished = false;
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene(lastPlayed);
     }
 
     public void BackToMenu()

@@ -40,7 +40,9 @@ public class Enemy : MonoBehaviour
 
     void Awake()
     {
+        maxHealth *= GameManager.Instance.levelMult;
         health = maxHealth;
+        Debug.Log(health);
         hitFlashEffect = GetComponent<HitFlashEffect>();
         rb = GetComponent<Rigidbody2D>();
         healthBar = GetComponentInChildren<HealthBar>();
@@ -115,7 +117,7 @@ public class Enemy : MonoBehaviour
     {
         Vector2 dir = (player.position - transform.position).normalized;
         var p = Instantiate(projectilePrefab, projectileOrigin.position, Quaternion.identity);
-        p.GetComponent<EnemyProjectile>().Initialize(dir, 10);
+        p.GetComponent<EnemyProjectile>().Initialize(dir, 10 * (int) GameManager.Instance.levelMult);
     }
 
     public void TakeDamage(float amount)
@@ -188,7 +190,7 @@ public class Enemy : MonoBehaviour
     {
         if (canDamage)
         {
-            pc.TakeDamage(contactDamage);
+            pc.TakeDamage(contactDamage * (int) GameManager.Instance.levelMult);
 
             canDamage = false;
             StartCoroutine(DamageCooldownRoutine());

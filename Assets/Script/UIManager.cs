@@ -121,7 +121,7 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("Reiniciando nivel...");
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene(GameManager.Instance.lastPlayed);
     }
 
     private void OnMainMenuPressed()

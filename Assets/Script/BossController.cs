@@ -53,7 +53,7 @@ public class BossController : MonoBehaviour
             transform.position.y + 3.5f,  // Ejemplo: segunda altura
             transform.position.y - 2.5f   // Ejemplo: tercera altura
         };
-
+        maxHealth *= GameManager.Instance.levelMult;
         health = maxHealth;
         hitFlashEffect = GetComponent<HitFlashEffect>();
         BossHealthBar.Instance.UpdateBar(health / maxHealth);
@@ -151,7 +151,7 @@ public class BossController : MonoBehaviour
                 if (hit.CompareTag("Player"))
                 {
                     PlayerController p = hit.GetComponent<PlayerController>();
-                    if (p != null) p.TakeDamage(aoeDamage);
+                    if (p != null) p.TakeDamage(aoeDamage * (int)GameManager.Instance.levelMult);
                 }
             }
         }
@@ -173,7 +173,7 @@ public class BossController : MonoBehaviour
 
         Vector2 dir = (player.position - transform.position).normalized;
         var p = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
-        p.GetComponent<EnemyProjectile>().Initialize(dir, projectileDamage);
+        p.GetComponent<EnemyProjectile>().Initialize(dir, projectileDamage * (int)GameManager.Instance.levelMult);
         
     }
 
@@ -199,7 +199,7 @@ public class BossController : MonoBehaviour
     {
         if (canContactDamage)
         {
-            pc.TakeDamage(contactDamage);
+            pc.TakeDamage(contactDamage * (int)GameManager.Instance.levelMult);
 
             canContactDamage = false;
             StartCoroutine(DamageCooldownRoutine());
