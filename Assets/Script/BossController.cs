@@ -11,7 +11,7 @@ public class BossController : MonoBehaviour
     public Transform firePoint;                 // Where projectiles spawn
 
     [Header("Attack Settings")]
-    public float attackCooldown = 3f;           // Time between attacks
+    public float attackCooldown = 3f;           // Time between aoe attacks
     public float aoeWarningTime = 1f;           // How long warning shows before damage
     public float aoeFadeOutTime = 0.5f;         // Fade out after damage
     public int aoeDamage = 30;
@@ -20,7 +20,9 @@ public class BossController : MonoBehaviour
     public int projectileDamage = 30;
 
     private float nextAttackTime = 0f;
-    private int currentAttackIndex = 0;         // 0 = AOE, 1 = Projectile
+
+    public float projectileAttackCooldown = 1f;
+    private float nextProjectileAttackTime = 0f;
 
 
     // Las 3 posiciones Y fijas (puedes ajustar estos valores según tu juego)
@@ -64,13 +66,13 @@ public class BossController : MonoBehaviour
         {
             nextAttackTime = Time.time + attackCooldown;
 
-            // Cycle between attacks
-            if (currentAttackIndex == 0)
-                StartCoroutine(AOEAttack());
-            else
-                ProjectileAttack();
+            StartCoroutine(AOEAttack());
+        }
+        if (Time.time >= nextProjectileAttackTime)
+        {
+            nextProjectileAttackTime = Time.time + projectileAttackCooldown;
 
-            currentAttackIndex = 1 - currentAttackIndex; // Toggle 0 - 1
+            ProjectileAttack();
         }
     }
 
