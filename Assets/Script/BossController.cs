@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BossController : MonoBehaviour
@@ -57,6 +58,11 @@ public class BossController : MonoBehaviour
         hitFlashEffect = GetComponent<HitFlashEffect>();
         BossHealthBar.Instance.UpdateBar(health / maxHealth);
         ExperienceBar.Instance.GetComponent<CanvasGroup>().alpha = 0f;
+        var walls = FindObjectsByType<BossWalls>(FindObjectsInactive.Include, FindObjectsSortMode.None).FirstOrDefault();
+        if (walls != null)
+        {
+            walls.gameObject.SetActive(true);
+        }
     }
 
     void Update()

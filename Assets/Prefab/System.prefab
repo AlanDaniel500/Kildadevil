@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   IsPaused: 0
-  matchDuration: 10
+  matchDuration: 120
 --- !u!114 &4061926810858941554
 MonoBehaviour:
   m_ObjectHideFlags: 0

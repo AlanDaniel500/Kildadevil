@@ -192,7 +192,11 @@ public class PlayerController : MonoBehaviour
         {
             if (enemyCol != null)
             {
-                enemyCol.GetComponentInParent<Enemy>().TakeDamage(0);
+                var boss = FindAnyObjectByType<BossController>();
+                if (boss == null)
+                {
+                    enemyCol.GetComponentInParent<Enemy>().TakeDamage(0);
+                }
             }
         }
         enemiesCollidingDuringDash.Clear();
